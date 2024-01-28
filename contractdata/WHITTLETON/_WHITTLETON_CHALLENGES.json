@@ -6871,6 +6871,68 @@
                     }
                 }
             ]
+        },
+        {
+            "Name": "UI_MENU_PAGE_PROFILE_CHALLENGES_CATEGORY_PACK_ARGON",
+            "Image": "images/challenges/categories/packargon/tile.jpg",
+            "Icon": "challenge_category_feats",
+            "CategoryId": "argon-pack",
+            "Description": "",
+            "Challenges": [
+                {
+                    "Id": "aea1870f-de2c-4675-b209-0010a42b571e",
+                    "Name": "CHALLENGEPACK_ARGON_SERVERSNIPER_NAME",
+                    "ImageName": "images/challenges/Categories/PackArgon/Argon_ServerSniper.jpg",
+                    "Description": "CHALLENGEPACK_ARGON_SERVERSNIPER_DESC",
+                    "Rewards": {
+                        "MasteryXP": 2000
+                    },
+                    "Drops": ["PROP_CONTAINER_SUITCASE_ICA_STA"],
+                    "IsPlayable": true,
+                    "IsLocked": false,
+                    "HideProgression": false,
+                    "CategoryName": "UI_MENU_PAGE_PROFILE_CHALLENGES_CATEGORY_PACK_ARGON",
+                    "Icon": "challenge_category_feats",
+                    "LocationId": "LOCATION_PARENT_NORTHAMERICA",
+                    "ParentLocationId": "LOCATION_PARENT_NORTHAMERICA",
+                    "Type": "parentlocation",
+                    "DifficultyLevels": [],
+                    "OrderIndex": 100001,
+                    "XpModifier": {},
+                    "RuntimeType": "Hit",
+                    "Definition": {
+                        "Context": {},
+                        "Scope": "session",
+                        "States": {
+                            "Start": {
+                                "Pacify": {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": ["$Value.IsTarget", true]
+                                            },
+                                            {
+                                                "$eq": [
+                                                    "$Value.KillItemCategory",
+                                                    "case"
+                                                ]
+                                            },
+                                            {
+                                                "$eq": [
+                                                    "$Value.OutfitRepositoryId",
+                                                    "5d19c9f8-7df2-4113-b81d-b32d5e231717"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                }
+                            }
+                        }
+                    },
+                    "Tags": ["argon-pack", "story", "live", "medium"]
+                }
+            ]
         }
     ]
 }

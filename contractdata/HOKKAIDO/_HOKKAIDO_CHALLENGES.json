@@ -7601,6 +7601,54 @@
                     }
                 }
             ]
+        },
+        {
+            "Name": "UI_MENU_PAGE_PROFILE_CHALLENGES_CATEGORY_PACK_ARGON",
+            "Image": "images/challenges/categories/packargon/tile.jpg",
+            "Icon": "challenge_category_feats",
+            "CategoryId": "argon-pack",
+            "Description": "",
+            "Challenges": [
+                {
+                    "Id": "e19ada9e-e22c-4163-821c-1b01c3cff17b",
+                    "Name": "CHALLENGEPACK_ARGON_KAIDESTROYER_NAME",
+                    "ImageName": "images/challenges/Categories/PackArgon/Argon_KaiDestroyer.jpg",
+                    "Description": "CHALLENGEPACK_ARGON_KAIDESTROYER_DESC",
+                    "Rewards": {
+                        "MasteryXP": 4000
+                    },
+                    "Drops": ["TOKEN_OUTFIT_HERO_REDSPECIAL_SUIT"],
+                    "IsPlayable": true,
+                    "IsLocked": false,
+                    "HideProgression": false,
+                    "CategoryName": "UI_MENU_PAGE_PROFILE_CHALLENGES_CATEGORY_PACK_ARGON",
+                    "Icon": "challenge_category_feats",
+                    "LocationId": "LOCATION_PARENT_HOKKAIDO",
+                    "ParentLocationId": "LOCATION_PARENT_HOKKAIDO",
+                    "Type": "parentlocation",
+                    "DifficultyLevels": [],
+                    "OrderIndex": 100002,
+                    "XpModifier": {},
+                    "RuntimeType": "Hit",
+                    "Definition": {
+                        "Scope": "session",
+                        "States": {
+                            "Start": {
+                                "Level_Setup_Events": {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.Event_metricvalue",
+                                            "Mainframe_Sabotaged"
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                }
+                            }
+                        }
+                    },
+                    "Tags": ["argon-pack", "story", "live", "hard"]
+                }
+            ]
         }
     ]
 }
