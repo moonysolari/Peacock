@@ -28,6 +28,7 @@ import {
 } from "../contracts/dataGen"
 import { createLocationsData, getAllGameDestinations } from "./destinations"
 import { makeCampaigns } from "./campaigns"
+import { LogLevel, log } from "components/loggingInterop"
 
 export function getHubData(gameVersion: GameVersion, jwt: JwtData) {
     swapToBrowsingMenusStatus(gameVersion)
@@ -58,6 +59,49 @@ export function getHubData(gameVersion: GameVersion, jwt: JwtData) {
               }
 
     const masteryData = []
+
+    const challengePacks = [
+        // argentum: 6,
+        "argon",
+    ]
+
+    for (const pack of challengePacks) {
+        const challenges = controller.challengeService.getGroupedChallengeLists(
+            undefined,
+            `${pack}-pack`,
+            gameVersion,
+        )
+        log(LogLevel.DEBUG, JSON.stringify(challenges))
+        const challengeCompletion =
+            controller.challengeService.countTotalNCompletedChallenges(
+                challenges,
+                jwt.unique_name,
+                gameVersion,
+            )
+        career[pack] = {
+            // Official uses the ICA Facility for the location here
+            Location: locations.parents["LOCATION_PARENT_ICA_FACILITY"],
+            Name: `UI_MENU_PAGE_PROFILE_CHALLENGES_CATEGORY_PACK_${pack.toUpperCase()}`,
+            Children: [
+                {
+                    IsLocked: false,
+                    Name: `UI_MENU_PAGE_PROFILE_CHALLENGES_CATEGORY_PACK_${pack.toUpperCase()}`,
+                    Image: `images/challenges/categories/pack${pack}/tile.jpg`,
+                    Icon: "challenge_category_feats", // change this if subsequent challenge packs have different icons
+                    CompletedChallengesCount:
+                        challengeCompletion.CompletedChallengesCount,
+                    ChallengesCount: challengeCompletion.ChallengesCount,
+                    CategoryId: `${pack}-pack`,
+                    Description: "",
+                    Location: locations.parents["LOCATION_PARENT_ICA_FACILITY"],
+                    ImageLocked: "",
+                    RequiredResources: [],
+                    IsPack: true, // should be true for all challenge packs
+                    CompletionData: {},
+                },
+            ],
+        }
+    }
 
     for (const parent in locations.parents) {
         career[parent] = {

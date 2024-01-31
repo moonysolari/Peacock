@@ -98,7 +98,7 @@ export abstract class ChallengeRegistry {
     /**
      * @Key1 Game version.
      * @Key2 The parent location Id.
-     * @Key3 The group Id.
+     * @Key3 The group's CategoryId.
      * @Value A `SavedChallengeGroup` object.
      */
     protected groups: Map<
@@ -498,6 +498,50 @@ export class ChallengeService extends ChallengeRegistry {
     /**
      * This is a helper function for @see getGroupedChallengeLists. It is not expected to be used elsewhere.
      *
+     * Filter all challenges in a game that belong to a certain group,
+     * and write them into the `challenges` array provided.
+     *
+     * @param groupId The pack's CategoryId to filter by, e.g. "argon-pack".
+     * @param challenges The array to write results to.
+     * @param gameVersion The game's version.
+     */
+    getGroupedChallengesByGroup(
+        groupId: string,
+        challenges: [string, RegistryChallenge[]][],
+        gameVersion: GameVersion,
+    ) {
+        const locations = this.groups.get(gameVersion)?.keys() ?? []
+        let groupChallenges = []
+        for (const location of locations) {
+            if (this.groups.get(gameVersion)?.get(location)?.has(groupId)) {
+                const groupContents = this.getGroupContentByIdLoc(
+                    groupId,
+                    location,
+                    gameVersion,
+                )
+                if (groupContents) {
+                    // iterate through all challenges in the groupContents
+                    // and add them to the groupChallenges array
+
+                    for (const challengeId of groupContents) {
+                        const challenge = this.getChallengeById(
+                            challengeId,
+                            gameVersion,
+                        )
+                        if (challenge) {
+                            groupChallenges.push(challenge)
+                        }
+                    }
+
+                }
+            }
+        }
+        challenges.push([groupId, [...groupChallenges]])
+    }
+
+    /**
+     * This is a helper function for @see getGroupedChallengeLists. It is not expected to be used elsewhere.
+     *
      * Filter all challenges in a parent location using a given filter, sort them into groups,
      * and write them into the `challenges` array provided.
      *
@@ -574,37 +618,45 @@ export class ChallengeService extends ChallengeRegistry {
             return {}
         }
 
-        this.getGroupedChallengesByLoc(
-            filter,
-            location,
-            challenges,
-            gameVersion,
-        )
-
-        if (filter.type === ChallengeFilterType.Contract && filter.isFeatured) {
+        if (location.endsWith("-pack")) {
+            // challenge pack, ignores the filter
+            this.getGroupedChallengesByGroup(location, challenges, gameVersion)
+        } else {
             this.getGroupedChallengesByLoc(
                 filter,
-                "GLOBAL_FEATURED_CHALLENGES",
+                location,
                 challenges,
                 gameVersion,
             )
-        }
 
-        this.getGroupedChallengesByLoc(
-            filter,
-            "GLOBAL_ARCADE_CHALLENGES",
-            challenges,
-            gameVersion,
-        )
+            if (
+                filter.type === ChallengeFilterType.Contract &&
+                filter.isFeatured
+            ) {
+                this.getGroupedChallengesByLoc(
+                    filter,
+                    "GLOBAL_FEATURED_CHALLENGES",
+                    challenges,
+                    gameVersion,
+                )
+            }
 
-        // H2 & H1 have the escalation challenges in "feats"
-        if (gameVersion === "h3") {
             this.getGroupedChallengesByLoc(
                 filter,
-                "GLOBAL_ESCALATION_CHALLENGES",
+                "GLOBAL_ARCADE_CHALLENGES",
                 challenges,
                 gameVersion,
             )
+
+            // H2 & H1 have the escalation challenges in "feats"
+            if (gameVersion === "h3") {
+                this.getGroupedChallengesByLoc(
+                    filter,
+                    "GLOBAL_ESCALATION_CHALLENGES",
+                    challenges,
+                    gameVersion,
+                )
+            }
         }
 
         // remove empty groups
@@ -1042,6 +1094,26 @@ export class ChallengeService extends ChallengeRegistry {
                 parent: locationParentId,
             },
             locationParentId,
+            gameVersion,
+        )
+
+        return this.reBatchIntoSwitchedData(
+            forLocation,
+            userId,
+            gameVersion,
+            locationData,
+            true,
+        )
+    }
+
+    getChallengeDataForPack(
+        packId: string,
+        gameVersion: GameVersion,
+        userId: string,
+    ): CompiledChallengeTreeCategory[] {
+        const forLocation = this.getGroupedChallengeLists(
+            undefined,
+            packId,
             gameVersion,
         )
 

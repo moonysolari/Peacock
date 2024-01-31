@@ -110,20 +110,36 @@ menuDataRouter.get(
             return
         }
 
-        const location = getVersionedConfig<PeacockLocationsData>(
-            "LocationsData",
-            req.gameVersion,
-            true,
-        ).children[req.query.locationId]
+        let data = {}
 
-        const data = {
-            Name: location.DisplayNameLocKey,
-            Location: location,
-            Children: controller.challengeService.getChallengeDataForLocation(
-                req.query.locationId,
+        if (req.query.locationId.endsWith("-pack")) {
+            const codename = req.query.locationId.split("-")[0]
+            data = {
+                Name: `UI_MENU_PAGE_PROFILE_CHALLENGES_CATEGORY_PACK_${codename.toUpperCase()}`,
+                Children:
+                    controller.challengeService.getChallengeDataForLocation(
+                        req.query.locationId,
+                        req.gameVersion,
+                        req.jwt.unique_name,
+                    ),
+            }
+        } else {
+            const location = getVersionedConfig<PeacockLocationsData>(
+                "LocationsData",
                 req.gameVersion,
-                req.jwt.unique_name,
-            ),
+                true,
+            ).children[req.query.locationId]
+
+            data = {
+                Name: location.DisplayNameLocKey,
+                Location: location,
+                Children:
+                    controller.challengeService.getChallengeDataForLocation(
+                        req.query.locationId,
+                        req.gameVersion,
+                        req.jwt.unique_name,
+                    ),
+            }
         }
 
         res.json({
