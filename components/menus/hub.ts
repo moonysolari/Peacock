@@ -34,6 +34,7 @@ import {
 import { createLocationsData, getAllGameDestinations } from "./destinations"
 import { makeCampaigns } from "./campaigns"
 import { LogLevel, log } from "components/loggingInterop"
+import { ChallengeFilterType } from "components/candle/challengeHelpers"
 
 type CareerEntry = {
     Children: CareerEntryChild[]
@@ -41,6 +42,7 @@ type CareerEntry = {
     Location: Unlockable
 }
 
+// Empty / null values are for challenge packs
 type CareerEntryChild = {
     IsLocked: boolean
     Name: string
@@ -54,7 +56,7 @@ type CareerEntryChild = {
     ImageLocked: string
     RequiredResources: string[]
     IsPack?: boolean
-    CompletionData: CompletionData
+    CompletionData: CompletionData | {}
 }
 
 export function getHubData(gameVersion: GameVersion, userId: string) {
@@ -94,7 +96,9 @@ export function getHubData(gameVersion: GameVersion, userId: string) {
 
     for (const pack of challengePacks) {
         const challenges = controller.challengeService.getGroupedChallengeLists(
-            undefined,
+            {
+                type: ChallengeFilterType.None,
+            },
             `${pack}-pack`,
             gameVersion,
         )
@@ -102,7 +106,7 @@ export function getHubData(gameVersion: GameVersion, userId: string) {
         const challengeCompletion =
             controller.challengeService.countTotalNCompletedChallenges(
                 challenges,
-                jwt.unique_name,
+                userId,
                 gameVersion,
             )
         career[pack] = {
