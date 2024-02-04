@@ -33,7 +33,6 @@ import {
 } from "../contracts/dataGen"
 import { createLocationsData, getAllGameDestinations } from "./destinations"
 import { makeCampaigns } from "./campaigns"
-import { LogLevel, log } from "components/loggingInterop"
 import { ChallengeFilterType } from "components/candle/challengeHelpers"
 
 type CareerEntry = {
@@ -89,6 +88,7 @@ export function getHubData(gameVersion: GameVersion, userId: string) {
 
     const masteryData = []
 
+    // NOTE TO SELF: get rid of this
     const challengePacks = [
         // argentum: 6,
         "argon",
@@ -102,13 +102,14 @@ export function getHubData(gameVersion: GameVersion, userId: string) {
             `${pack}-pack`,
             gameVersion,
         )
-        log(LogLevel.DEBUG, JSON.stringify(challenges))
+
         const challengeCompletion =
             controller.challengeService.countTotalNCompletedChallenges(
                 challenges,
                 userId,
                 gameVersion,
             )
+
         career[pack] = {
             // Official uses the ICA Facility for the location here
             Location: locations.parents["LOCATION_PARENT_ICA_FACILITY"],

@@ -1166,23 +1166,24 @@ export interface ChallengeProgressCCountContextListener {
     count: number
 }
 
+// Empty / null values are for challenge packs
 export interface CompiledChallengeTreeCategory {
     CategoryId: string
     ChallengesCount: number
     CompletedChallengesCount: number
-    CompletionData: CompletionData
+    CompletionData: CompletionData | {}
     Icon: string
     Image: string
     ImageLocked?: string
     IsLocked: boolean
-    Location: Unlockable
+    Location: Unlockable | null
     Name: string
     RequiredResources: string[]
     SwitchData: {
         Data: {
             CategoryData: CompiledChallengeTreeCategoryInfo
             Challenges: CompiledChallengeTreeData[]
-            CompletionData: CompletionData
+            CompletionData: CompletionData | {}
             HasNext: boolean
             HasPrevious: boolean
             NextCategoryIcon?: string

@@ -109,7 +109,7 @@ menuDataRouter.get(
             data = {
                 Name: `UI_MENU_PAGE_PROFILE_CHALLENGES_CATEGORY_PACK_${codename.toUpperCase()}`,
                 Children:
-                    controller.challengeService.getChallengeDataForLocation(
+                    controller.challengeService.getChallengeDataForPack(
                         req.query.locationId,
                         req.gameVersion,
                         req.jwt.unique_name,
