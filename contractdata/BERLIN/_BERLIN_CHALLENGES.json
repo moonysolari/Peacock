@@ -4620,6 +4620,113 @@
                     }
                 }
             ]
+        },
+        {
+            "Name": "UI_MENU_PAGE_PROFILE_CHALLENGES_CATEGORY_PACK_ARGENTUM",
+            "Image": "images/challenges/categories/packargentum/tile.jpg",
+            "Icon": "challenge_category_feats",
+            "CategoryId": "argentum-pack",
+            "Description": "",
+            "Challenges": [
+                {
+                    "Id": "2b9f479e-6789-4f23-9eef-e17f268a2b11",
+                    "Name": "CHALLENGEPACK_ARGENTUM_FOXEXPLODER_NAME",
+                    "ImageName": "images/challenges/Categories/PackArgentum/Argentum_FoxExploder.jpg",
+                    "Description": "CHALLENGEPACK_ARGENTUM_FOXEXPLODER_DESC",
+                    "Rewards": {
+                        "MasteryXP": 4000
+                    },
+                    "Drops": [],
+                    "IsPlayable": true,
+                    "IsLocked": false,
+                    "HideProgression": false,
+                    "CategoryName": "UI_MENU_PAGE_PROFILE_CHALLENGES_CATEGORY_PACK_ARGENTUM",
+                    "Icon": "challenge_category_feats",
+                    "LocationId": "LOCATION_PARENT_EDGY",
+                    "ParentLocationId": "LOCATION_PARENT_EDGY",
+                    "Type": "contract",
+                    "DifficultyLevels": [],
+                    "OrderIndex": 100004,
+                    "XpModifier": {},
+                    "RuntimeType": "Hit",
+                    "Definition": {
+                        "Constants": {
+                            "Goal": 5
+                        },
+                        "ContextListeners": {
+                            "Count": {
+                                "type": "challengecounter",
+                                "count": "$.Count",
+                                "total": "$.Goal"
+                            }
+                        },
+                        "Context": {
+                            "Count": 0,
+                            "Targets": [
+                                "8b29da09-461f-44d7-9042-d4fde829b9f2",
+                                "b8e7e65b-587e-471b-894d-282cda6614d4",
+                                "922deccd-7fb4-45d9-ae3d-2cf11915c403",
+                                "28cb7e91-bf9c-46ee-a371-1bd1448f1994",
+                                "633398ac-c4b4-4441-852d-ae6460172025",
+                                "1305c2e4-6394-4cfa-b873-22adbd0c9702",
+                                "abd1c0e7-e406-43bd-9185-419029c5bf3d",
+                                "eb024a5e-9580-49dc-a519-bb92c886f3b1",
+                                "252428ca-3f8e-4477-b2b9-58f18cff3e44",
+                                "2ab07903-e958-4af6-b01c-b62058745ce1",
+                                "f83376a4-6e56-4f2a-8122-151b272108fd"
+                            ]
+                        },
+                        "Scope": "session",
+                        "States": {
+                            "Start": {
+                                "FoxExploderActive": {
+                                    "Transition": "ChallengeActive"
+                                }
+                            },
+                            "ChallengeActive": {
+                                "Kill": [
+                                    {
+                                        "Condition": {
+                                            "$and": [
+                                                {
+                                                    "$inarray": {
+                                                        "in": "$.Targets",
+                                                        "?": {
+                                                            "$eq": [
+                                                                "$.#",
+                                                                "$Value.RepositoryId"
+                                                            ]
+                                                        }
+                                                    }
+                                                },
+                                                {
+                                                    "$eq": [
+                                                        "$Value.KillClass",
+                                                        "explosion"
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        "Actions": {
+                                            "$inc": "Count"
+                                        }
+                                    },
+                                    {
+                                        "Condition": {
+                                            "$eq": ["$.Count", "$.Goal"]
+                                        },
+                                        "Transition": "Success"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "Tags": ["argentum-pack", "story", "live", "hard"],
+                    "InclusionData": {
+                        "ContractIds": ["ebcd14b2-0786-4ceb-a2a4-e771f60d0125"]
+                    }
+                }
+            ]
         }
     ]
 }

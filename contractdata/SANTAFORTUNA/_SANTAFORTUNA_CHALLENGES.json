@@ -6348,6 +6348,69 @@
                     }
                 }
             ]
+        },
+        {
+            "Name": "UI_MENU_PAGE_PROFILE_CHALLENGES_CATEGORY_PACK_ARGENTUM",
+            "Image": "images/challenges/categories/packargentum/tile.jpg",
+            "Icon": "challenge_category_feats",
+            "CategoryId": "argentum-pack",
+            "Description": "",
+            "Challenges": [
+                {
+                    "Id": "86e11742-f0e6-4594-b914-9ab0d8f7ab1b",
+                    "Name": "CHALLENGEPACK_ARGENTUM_HIPPOPACIFIER_NAME",
+                    "ImageName": "images/challenges/Categories/PackArgentum/Argentum_HippoPacifier.jpg",
+                    "Description": "CHALLENGEPACK_ARGENTUM_HIPPOPACIFIER_DESC",
+                    "Rewards": {
+                        "MasteryXP": 2000
+                    },
+                    "Drops": [],
+                    "IsPlayable": true,
+                    "IsLocked": false,
+                    "HideProgression": false,
+                    "CategoryName": "UI_MENU_PAGE_PROFILE_CHALLENGES_CATEGORY_PACK_ARGENTUM",
+                    "Icon": "challenge_category_feats",
+                    "LocationId": "LOCATION_PARENT_COLOMBIA",
+                    "ParentLocationId": "LOCATION_PARENT_COLOMBIA",
+                    "Type": "parentlocation",
+                    "DifficultyLevels": [],
+                    "OrderIndex": 100002,
+                    "XpModifier": {},
+                    "RuntimeType": "Hit",
+                    "Definition": {
+                        "Scope": "session",
+                        "States": {
+                            "Start": {
+                                "HippoPacifierActive": {
+                                    "Transition": "ChallengeActive"
+                                }
+                            },
+                            "ChallengeActive": {
+                                "Pacify": {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "5562b1ba-d12e-428d-886e-bc9f2c80c2f2"
+                                                ]
+                                            },
+                                            {
+                                                "$eq": [
+                                                    "$Value.KillItemRepositoryId",
+                                                    "4b0def3b-7378-494d-b885-92c334f2f8cb"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                }
+                            }
+                        }
+                    },
+                    "Tags": ["argentum-pack", "story", "live", "medium"]
+                }
+            ]
         }
     ]
 }

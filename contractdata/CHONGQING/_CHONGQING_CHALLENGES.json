@@ -4594,6 +4594,76 @@
                     }
                 }
             ]
+        },
+        {
+            "Name": "UI_MENU_PAGE_PROFILE_CHALLENGES_CATEGORY_PACK_ARGENTUM",
+            "Image": "images/challenges/categories/packargentum/tile.jpg",
+            "Icon": "challenge_category_feats",
+            "CategoryId": "argentum-pack",
+            "Description": "",
+            "Challenges": [
+                {
+                    "Id": "f8ba2bd3-dcd7-453f-aa64-c0ed6992e24b",
+                    "Name": "CHALLENGEPACK_ARGENTUM_RATSNIPER_NAME",
+                    "ImageName": "images/challenges/Categories/PackArgentum/Argentum_RatSniper.jpg",
+                    "Description": "CHALLENGEPACK_ARGENTUM_RATSNIPER_DESC",
+                    "Rewards": {
+                        "MasteryXP": 1000
+                    },
+                    "Drops": [],
+                    "IsPlayable": true,
+                    "IsLocked": false,
+                    "HideProgression": false,
+                    "CategoryName": "UI_MENU_PAGE_PROFILE_CHALLENGES_CATEGORY_PACK_ARGENTUM",
+                    "Icon": "challenge_category_feats",
+                    "LocationId": "LOCATION_WET_RAT",
+                    "ParentLocationId": "LOCATION_PARENT_WET",
+                    "Type": "location",
+                    "DifficultyLevels": [],
+                    "OrderIndex": 100001,
+                    "XpModifier": {},
+                    "RuntimeType": "Hit",
+                    "Definition": {
+                        "Context": {},
+                        "Scope": "session",
+                        "States": {
+                            "Start": {
+                                "EnterARGENTUM_Volume": {
+                                    "Transition": "InPosition"
+                                }
+                            },
+                            "InPosition": {
+                                "ExitARGENTUM_Volume": {
+                                    "Transition": "Start"
+                                },
+                                "Kill": {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": ["$Value.IsTarget", true]
+                                            },
+                                            {
+                                                "$eq": [
+                                                    "$Value.KillItemCategory",
+                                                    "sniperrifle"
+                                                ]
+                                            },
+                                            {
+                                                "$eq": [
+                                                    "$Value.IsHeadshot",
+                                                    true
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                }
+                            }
+                        }
+                    },
+                    "Tags": ["argentum-pack", "story", "live", "easy"]
+                }
+            ]
         }
     ]
 }

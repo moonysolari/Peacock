@@ -6901,6 +6901,101 @@
                     }
                 }
             ]
+        },
+        {
+            "Name": "UI_MENU_PAGE_PROFILE_CHALLENGES_CATEGORY_PACK_ARGENTUM",
+            "Image": "images/challenges/categories/packargentum/tile.jpg",
+            "Icon": "challenge_category_feats",
+            "CategoryId": "argentum-pack",
+            "Description": "",
+            "Challenges": [
+                {
+                    "Id": "5b943968-7142-406e-bd6c-9b9018554667",
+                    "Name": "CHALLENGEPACK_ARGENTUM_TIGERDROWNER_NAME",
+                    "ImageName": "images/challenges/Categories/PackArgentum/Argentum_TigerDrowner.jpg",
+                    "Description": "CHALLENGEPACK_ARGENTUM_TIGERDROWNER_DESC",
+                    "Rewards": {
+                        "MasteryXP": 2000
+                    },
+                    "Drops": [],
+                    "IsPlayable": true,
+                    "IsLocked": false,
+                    "HideProgression": false,
+                    "CategoryName": "UI_MENU_PAGE_PROFILE_CHALLENGES_CATEGORY_PACK_ARGENTUM",
+                    "Icon": "challenge_category_feats",
+                    "LocationId": "LOCATION_PARENT_BANGKOK",
+                    "ParentLocationId": "LOCATION_PARENT_BANGKOK",
+                    "Type": "parentlocation",
+                    "DifficultyLevels": [],
+                    "OrderIndex": 100003,
+                    "XpModifier": {},
+                    "RuntimeType": "Hit",
+                    "Definition": {
+                        "Scope": "session",
+                        "States": {
+                            "Start": {
+                                "TigerDrownerActive": {
+                                    "Transition": "ChallengeActive"
+                                }
+                            },
+                            "ChallengeActive": {
+                                "Kill": [
+                                    {
+                                        "Condition": {
+                                            "$and": [
+                                                {
+                                                    "$eq": [
+                                                        "$Value.IsTarget",
+                                                        true
+                                                    ]
+                                                },
+                                                {
+                                                    "$eq": [
+                                                        "$Value.KillMethodStrict",
+                                                        "accident_drown"
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        "Transition": "Success"
+                                    },
+                                    {
+                                        "Condition": {
+                                            "$and": [
+                                                {
+                                                    "$eq": [
+                                                        "$Value.IsTarget",
+                                                        true
+                                                    ]
+                                                },
+                                                {
+                                                    "$eq": [
+                                                        "$Value.KillMethodStrict",
+                                                        "accident_push"
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        "Transition": "Check_Kill"
+                                    }
+                                ]
+                            },
+                            "Check_Kill": {
+                                "$timer": {
+                                    "Condition": {
+                                        "$after": 2
+                                    },
+                                    "Transition": "ChallengeActive"
+                                },
+                                "DumpInOcean": {
+                                    "Transition": "Success"
+                                }
+                            }
+                        }
+                    },
+                    "Tags": ["argentum-pack", "story", "live", "medium"]
+                }
+            ]
         }
     ]
 }
